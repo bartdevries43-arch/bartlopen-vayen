@@ -1,5 +1,5 @@
 /* Eenvoudige offline-cache voor Run Coach. Verhoog CACHE bij elke update. */
-const CACHE = "runcoach-vayen-v1";
+const CACHE = "runcoach-vayen-v1-v3";
 const ASSETS = [
   "./",
   "./index.html",
