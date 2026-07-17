@@ -1,5 +1,5 @@
 /* Eenvoudige offline-cache voor Run Coach. Verhoog CACHE bij elke update. */
-const CACHE = "runcoach-vayen-v3-kim-polish-x-shift-c2-c3-c4-logo2";
+const CACHE = "runcoach-vayen-v3-kim-polish-x-shift-c2-c3-c4-logo3";
 const ASSETS = [
   "./",
   "./index.html",
