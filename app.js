@@ -180,7 +180,7 @@ const PLAN = [
   ]},
   { week: 9, dates: "17\u201323 aug", phase: "Fase 3 \u00b7 5K scherp & 10K opbouwen", sessions: [
     ma({ zone: "duur", km: 5, title: "5 km rustig", goal: "Volume", blocks: ["5 km op 7:00\u20137:45/km"] }),
-    wo({ zone: "tempo", km: 5, title: "3\u00d71 km tempo", goal: "10K-ritme", blocks: ["1 km inlopen", "3\u00d71 km @ 6:20\u20136:30/km", "2 min rustig ertussen", "1 km uitlopen"] }),
+    wo({ zone: "tempo", km: 5, title: "3\u00d71 km tempo", goal: "10K-ritme", blocks: ["1 km inlopen", "3\u00d71 km @ 6:20\u20136:30/km", "2×2 min rustig tussen de blokken", "1 km uitlopen"] }),
     za({ zone: "lang", km: 8, title: "8 km rustig", goal: "Richting 10 km", blocks: ["8 km op 7:15\u20138:00/km"] }),
   ]},
   { week: 10, dates: "24\u201330 aug", phase: "Fase 3 \u00b7 5K scherp & 10K opbouwen", sessions: [
@@ -192,7 +192,7 @@ const PLAN = [
   /* ---- Fase 4 \u00b7 Naar de 10K ---- */
   { week: 11, dates: "31 aug\u20136 sep", phase: "Fase 4 \u00b7 Naar de 10K", taper: true, sessions: [
     ma({ zone: "duur", km: 4, title: "4 km + 4\u00d7100 m", goal: "Fris blijven", kind: "Soepel", blocks: ["4 km rustig", "4\u00d7100 m soepel"] }),
-    wo({ zone: "doel", km: 5, title: "3\u00d71 km op 10K-tempo", goal: "Doeltempo voelen", blocks: ["1 km inlopen", "3\u00d71 km @ \u22486:30/km", "2 min rustig ertussen", "1 km uitlopen"] }),
+    wo({ zone: "doel", km: 5, title: "3\u00d71 km op 10K-tempo", goal: "Doeltempo voelen", blocks: ["1 km inlopen", "3\u00d71 km @ \u22486:30/km", "2×2 min rustig tussen de blokken", "1 km uitlopen"] }),
     za({ zone: "lang", km: 6, title: "6 km rustig", goal: "Inkorten", blocks: ["6 km ontspannen"] }),
   ]},
   { week: 12, dates: "7\u201313 sep", phase: "Fase 4 \u00b7 Naar de 10K", taper: true, race: true, sessions: [
