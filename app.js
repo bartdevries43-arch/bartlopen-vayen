@@ -156,64 +156,59 @@ const PLAN = [
     wo({ zone: "doel", km: 4, title: "5\u00d7400 m op 5K-tempo", goal: "5K-gevoel", blocks: ["1 km inlopen + 3 versnellingen", "5\u00d7400 m @ \u22486:00/km", "200 m wandel/dribbel ertussen", "1 km uitlopen"] }),
     za({ zone: "lang", km: 6, title: "6 km rustig", goal: "Langer op de benen", blocks: ["6 km op 7:15\u20138:00/km"] }),
   ]},
-  { week: 5, dates: "20\u201326 jul", phase: "Fase 2 \u00b7 Sneller worden", sessions: [
-    ma({ zone: "duur", km: 4, title: "4 km + 4\u00d7100 m", goal: "Soepelheid", kind: "Soepel", blocks: ["4 km rustig", "4\u00d7100 m soepel versnellen"] }),
-    wo({ zone: "tempo", km: 5, title: "2\u00d71,5 km tempo", goal: "10K-tempo voelen", blocks: ["1 km inlopen", "2\u00d71,5 km @ 6:20\u20136:30/km", "2\u20133 min rustig ertussen", "1 km uitlopen"] }),
-    za({ zone: "lang", km: 6, title: "6 km rustig", goal: "Duur vasthouden", blocks: ["6 km op 7:15\u20138:00/km"] }),
+  { week: 5, dates: "20–26 jul", phase: "Fase 2 · Nieuw ritme: 2 dagen", sessions: [
+    ma({ zone: "duur", km: 3.5, title: "3,5 km rustig + 4×80 m", goal: "Rustig wennen aan je nieuwe ritme", blocks: ["3,5 km op 7:00–7:45/km", "Daarin 4×80 m soepel versnellen op gras (geen sprint)", "Voelen je knieën iets? Sla de versnellingen over"] }),
+    za({ zone: "lang", km: 5, title: "5 km rustig", goal: "Langer op de benen", blocks: ["5 km op 7:15–8:00/km", "Kletstempo, wandelpauze mag altijd"] }),
   ]},
-  { week: 6, dates: "27 jul\u20132 aug", phase: "Fase 2 \u00b7 Sneller worden", recovery: true, sessions: [
-    ma({ zone: "herstel", km: 3, title: "3 km heel rustig", goal: "Rustige week", blocks: ["3 km, lekker langzaam"] }),
-    wo({ zone: "interval", km: 3, title: "3 km + 4\u00d730 sec", goal: "Los blijven", blocks: ["3 km rustig", "4\u00d730 sec vlot, geen sprint"] }),
-    za({ zone: "lang", km: 5, title: "5 km ontspannen", goal: "Herstel", blocks: ["5 km heel rustig"] }),
+  { week: 6, dates: "27 jul–2 aug", phase: "Fase 2 · Nieuw ritme: 2 dagen", recovery: true, sessions: [
+    ma({ zone: "herstel", km: 3, title: "3 km heel rustig", goal: "Rustige week, knieën bijtanken", blocks: ["3 km heel rustig, alles mag traag", "Liefst op zacht pad of gras"] }),
+    za({ zone: "lang", km: 4, title: "4 km ontspannen", goal: "Lekker licht afronden", blocks: ["4 km laag tempo, geniet ervan"] }),
   ]},
-  { week: 7, dates: "3\u20139 aug", phase: "Fase 2 \u00b7 Sneller worden", sessions: [
-    ma({ zone: "duur", km: 5, title: "5 km rustig", goal: "Volume", blocks: ["5 km op 7:00\u20137:45/km"] }),
-    wo({ zone: "doel", km: 5, title: "5\u00d7500 m op 5K-tempo", goal: "Scherper op 5K", blocks: ["1 km inlopen", "5\u00d7500 m @ \u22486:00/km", "200 m dribbel ertussen", "1 km uitlopen"] }),
-    za({ zone: "lang", km: 7, title: "7 km rustig", goal: "Langste tot nu toe", blocks: ["7 km op 7:15\u20138:00/km"] }),
+  { week: 7, dates: "3–9 aug", phase: "Fase 2 · Nieuw ritme: 2 dagen", sessions: [
+    ma({ zone: "duur", km: 4, title: "4 km rustig + 4×100 m", goal: "Speels blijven, zacht voor je knieën", blocks: ["4 km op 7:00–7:45/km", "4×100 m soepel op gras, helemaal uitblazen ertussen"] }),
+    za({ zone: "lang", km: 6, title: "6 km rustig", goal: "Duur opbouwen", blocks: ["6 km op 7:15–8:00/km", "Rustig starten, ontspannen uitlopen"] }),
   ]},
-
-  /* ---- Fase 3 \u00b7 5K scherp & 10K opbouwen ---- */
-  { week: 8, dates: "10\u201316 aug", phase: "Fase 3 \u00b7 5K scherp & 10K opbouwen", sessions: [
-    ma({ zone: "duur", km: 4, title: "4 km rustig + versnellingen", goal: "Frisse benen", kind: "Soepel", blocks: ["4 km rustig", "4\u00d7100 m soepel"] }),
-    wo({ zone: "doel", km: 5, title: "\ud83c\udfc1 5 km tijdrit", goal: "Poging richting sub-30", kind: "Tijdrit", blocks: ["1,5 km rustig inlopen", "5 km zo gelijkmatig mogelijk (doel \u22486:00/km)", "Eerste km niet te snel starten", "Rustig uitlopen na afloop"] }),
-    za({ zone: "lang", km: 6, title: "6 km rustig", goal: "Herstellen & duur", blocks: ["6 km heel rustig"] }),
+  { week: 8, dates: "10–16 aug", phase: "Fase 3 · Voorzichtig scherper", sessions: [
+    ma({ zone: "duur", km: 3, title: "3 km los + 3 versnellingen", goal: "Fris richting je tijdrit", blocks: ["3 km rustig", "3×80 m soepel versnellen op gras"] }),
+    za({ zone: "doel", km: 5, title: "🏁 5 km tijdrit (als je knieën blij zijn)", goal: "Kijken waar je staat, zonder druk", blocks: ["Alleen doen als je knieën deze week rustig waren", "1 km rustig inlopen", "5 km zo gelijkmatig mogelijk (richting 6:00/km mag, moet niks)", "Knieën niet lekker? Maak er gewoon 5 km rustig van", "1 km uitlopen of 5 min wandelen"] }),
   ]},
-  { week: 9, dates: "17\u201323 aug", phase: "Fase 3 \u00b7 5K scherp & 10K opbouwen", sessions: [
-    ma({ zone: "duur", km: 5, title: "5 km rustig", goal: "Volume", blocks: ["5 km op 7:00\u20137:45/km"] }),
-    wo({ zone: "tempo", km: 5, title: "3\u00d71 km tempo", goal: "10K-ritme", blocks: ["1 km inlopen", "3\u00d71 km @ 6:20\u20136:30/km", "2×2 min rustig tussen de blokken", "1 km uitlopen"] }),
-    za({ zone: "lang", km: 8, title: "8 km rustig", goal: "Richting 10 km", blocks: ["8 km op 7:15\u20138:00/km"] }),
+  { week: 9, dates: "17–23 aug", phase: "Fase 3 · Voorzichtig scherper", sessions: [
+    ma({ zone: "duur", km: 4, title: "4 km rustig", goal: "Herstellen van de tijdrit", blocks: ["4 km op 7:00–7:45/km", "Lekker kletstempo"] }),
+    za({ zone: "lang", km: 7, title: "7 km rustig", goal: "Langste tot nu toe", blocks: ["7 km op 7:15–8:00/km", "Wandelpauze mag altijd, afmaken telt"] }),
   ]},
-  { week: 10, dates: "24\u201330 aug", phase: "Fase 3 \u00b7 5K scherp & 10K opbouwen", sessions: [
-    ma({ zone: "duur", km: 5, title: "5 km rustig", goal: "Volume", blocks: ["5 km rustig"] }),
-    wo({ zone: "interval", km: 5, title: "6\u00d7400 m vlot", goal: "Snelle benen", blocks: ["1 km inlopen", "6\u00d7400 m @ 5:40\u20135:55/km", "200 m dribbel ertussen", "1 km uitlopen"] }),
-    za({ zone: "lang", km: 9, title: "9 km rustig", goal: "Langste duurloop", blocks: ["9 km op 7:15\u20138:00/km", "Rustig, dit is je 10K-opbouw"] }),
+  { week: 10, dates: "24–30 aug", phase: "Fase 3 · Voorzichtig scherper", sessions: [
+    ma({ zone: "duur", km: 4, title: "4 km + 4×100 m soepel", goal: "Benen wakker houden", blocks: ["4 km op 7:00–7:45/km", "4×100 m soepel op gras of zacht pad"] }),
+    za({ zone: "lang", km: 8, title: "8 km rustig", goal: "Duur richting de 10 km", blocks: ["8 km op 7:15–8:00/km", "Neem water mee en verdeel je krachten"] }),
   ]},
-
-  /* ---- Fase 4 \u00b7 Naar de 10K ---- */
-  { week: 11, dates: "31 aug\u20136 sep", phase: "Fase 4 \u00b7 Naar de 10K", taper: true, sessions: [
-    ma({ zone: "duur", km: 4, title: "4 km + 4\u00d7100 m", goal: "Fris blijven", kind: "Soepel", blocks: ["4 km rustig", "4\u00d7100 m soepel"] }),
-    wo({ zone: "doel", km: 5, title: "3\u00d71 km op 10K-tempo", goal: "Doeltempo voelen", blocks: ["1 km inlopen", "3\u00d71 km @ \u22486:30/km", "2×2 min rustig tussen de blokken", "1 km uitlopen"] }),
-    za({ zone: "lang", km: 6, title: "6 km rustig", goal: "Inkorten", blocks: ["6 km ontspannen"] }),
+  { week: 11, dates: "31 aug–6 sep", phase: "Fase 4 · Naar de 10K", sessions: [
+    ma({ zone: "duur", km: 3.5, title: "3,5 km rustig + 3×100 m", goal: "Fris blijven", blocks: ["3,5 km rustig", "3×100 m soepel versnellen"] }),
+    za({ zone: "lang", km: 6, title: "6 km rustig", goal: "Fris de raceweek in", blocks: ["6 km ontspannen, niks forceren"] }),
   ]},
-  { week: 12, dates: "7\u201313 sep", phase: "Fase 4 \u00b7 Naar de 10K", taper: true, race: true, sessions: [
-    ma({ zone: "duur", km: 4, title: "4 km rustig", goal: "Benen los", blocks: ["4 km op 7:00\u20137:45/km"] }),
-    wo({ zone: "duur", km: 3, title: "3 km los + 3\u00d7100 m", goal: "Scherp & fris", kind: "Soepel", blocks: ["3 km rustig", "3\u00d7100 m soepel", "Niks zwaars meer"] }),
-    za({ zone: "doel", km: 10, title: "\ud83c\udfc1 10 km doelrace", goal: "Doel \u00b7 sub 1:05", kind: "Doelrace", blocks: ["Eerste 2 km rustig starten (\u22486:35/km)", "Daarna richting 6:30/km", "Laatste 2 km legen op gevoel", "Vooral: genieten, strijder!"] }),
+  { week: 12, dates: "7–13 sep", phase: "Fase 4 · Naar de 10K", race: true, sessions: [
+    ma({ zone: "duur", km: 3, title: "3 km los + 3×100 m", goal: "Benen los voor zaterdag", blocks: ["3 km heel rustig", "3×100 m korte soepele versnellingen"] }),
+    za({ zone: "doel", km: 10, title: "🏁 10 km rustig uitlopen", goal: "Jouw 10 km: uitlopen is winnen", blocks: ["Alleen doen als je knieën twee weken rustig waren; anders wordt het 7 km en komt de 10 later", "Start rustig (rond 7:00/km), tempo mag je helemaal loslaten", "Wandelpauze mag altijd, uitlopen telt", "Sub-1:05 komt later vanzelf, vandaag draait om trots finishen 🎉"] }),
   ]},
 ];
 
 /* --- Extra advies (info-kaarten) ----------------------------------- */
 const INFO = [
-  { icon: "\ud83d\udd25", title: "Warming-up & cooling-down", items: [
-    "Begin elke training met 1 km rustig inlopen.",
-    "Woensdag: 1 km inlopen + een paar korte versnellingen v\u00f3\u00f3r de snelle stukjes.",
-    "Eindig met 1 km uitlopen of 5 min wandelen.",
+  { icon: "\ud83e\uddb5", title: "Groeiende knie\u00ebn, luister ernaar", items: [
+    "Kniepijn door groei is echt en gaat meestal vanzelf over; er slim mee omgaan is nu het belangrijkst.",
+    "Loop het liefst op gras of zacht pad, en doe versnellingen nooit op hard asfalt.",
+    "Doet een knie pijn tijdens het lopen? Maak de training korter of wandel; scherpe pijn of mank lopen betekent stoppen.",
+    "Blijft de pijn terugkomen of wordt hij erger? Ga dan samen met je ouders even langs de huisarts of fysio.",
   ]},
   { icon: "\ud83d\ude34", title: "Plezier, rust & groei", items: [
     "Je bent 14 en groeit nog, rust is net zo belangrijk als trainen.",
-    "Maximaal 3 loopdagen per week, met minstens \u00e9\u00e9n echte rustdag ertussen.",
+    "Twee loopdagen per week is nu precies goed; zo krijgen je knie\u00ebn steeds dagen rust.",
+    "Zin om extra te bewegen? Fietsen of zwemmen is top, dat is licht voor je knie\u00ebn.",
     "Slaap goed (8\u201310 uur). Daar word je sneller van dan van extra trainen.",
     "Pijn of geen zin? Sla over of doe het rustiger. Het mag vooral leuk blijven!",
+  ]},
+  { icon: "\ud83d\udd25", title: "Warming-up & cooling-down", items: [
+    "Begin elke training met 1 km rustig inlopen.",
+    "Doe versnellingen pas na het inlopen, kort en soepel, op gras of zacht pad.",
+    "Eindig met 1 km uitlopen of 5 min wandelen.",
   ]},
   { icon: "\ud83e\udd64", title: "Eten & drinken", items: [
     "Eet gewoon gezond en genoeg, koolhydraten zijn je brandstof.",
@@ -224,6 +219,7 @@ const INFO = [
   { icon: "\ud83c\udfaf", title: "Naar je doelen", items: [
     "5 km sub-30 = ongeveer 6:00 per kilometer.",
     "10 km sub-1:05 = ongeveer 6:30 per kilometer.",
+    "Eerst een paar weken blije knie\u00ebn met 2 loopdagen; daarna jagen we samen weer op tijden.",
     "Start altijd iets rustiger dan je doeltempo; eindig sterk.",
     "Doe wat goed voelt, vooruitgang komt vanzelf met geduld.",
   ]},
