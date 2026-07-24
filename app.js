@@ -170,7 +170,7 @@ const PLAN = [
   ]},
   { week: 8, dates: "10–16 aug", phase: "Fase 3 · Voorzichtig scherper", sessions: [
     ma({ zone: "duur", km: 3, title: "3 km los + 3 versnellingen", goal: "Fris richting je tijdrit", blocks: ["3 km rustig", "3×80 m soepel versnellen op gras"] }),
-    za({ zone: "doel", km: 5, title: "🏁 5 km tijdrit (als je knieën blij zijn)", goal: "Kijken waar je staat, zonder druk", blocks: ["Alleen doen als je knieën deze week rustig waren", "1 km rustig inlopen", "5 km zo gelijkmatig mogelijk (richting 6:00/km mag, moet niks)", "Knieën niet lekker? Maak er gewoon 5 km rustig van", "1 km uitlopen of 5 min wandelen"] }),
+    za({ zone: "doel", km: 5, test: true, kind: "Tijdrit", title: "🏁 5 km tijdrit (als je knieën blij zijn)", goal: "Kijken waar je staat, zonder druk", blocks: ["Alleen doen als je knieën deze week rustig waren", "1 km rustig inlopen", "5 km zo gelijkmatig mogelijk (richting 6:00/km mag, moet niks)", "Knieën niet lekker? Maak er gewoon 5 km rustig van", "1 km uitlopen of 5 min wandelen"] }),
   ]},
   { week: 9, dates: "17–23 aug", phase: "Fase 3 · Voorzichtig scherper", sessions: [
     ma({ zone: "duur", km: 4, title: "4 km rustig", goal: "Herstellen van de tijdrit", blocks: ["4 km op 7:00–7:45/km", "Lekker kletstempo"] }),
@@ -186,7 +186,7 @@ const PLAN = [
   ]},
   { week: 12, dates: "7–13 sep", phase: "Fase 4 · Naar de 10K", race: true, sessions: [
     ma({ zone: "duur", km: 3, title: "3 km los + 3×100 m", goal: "Benen los voor zaterdag", blocks: ["3 km heel rustig", "3×100 m korte soepele versnellingen"] }),
-    za({ zone: "doel", km: 10, title: "🏁 10 km rustig uitlopen", goal: "Jouw 10 km: uitlopen is winnen", blocks: ["Alleen doen als je knieën twee weken rustig waren; anders wordt het 7 km en komt de 10 later", "Start rustig (rond 7:00/km), tempo mag je helemaal loslaten", "Wandelpauze mag altijd, uitlopen telt", "Sub-1:05 komt later vanzelf, vandaag draait om trots finishen 🎉"] }),
+    za({ zone: "doel", km: 10, kind: "Doelrace", title: "🏁 10 km rustig uitlopen", goal: "Jouw 10 km: uitlopen is winnen", blocks: ["Alleen doen als je knieën twee weken rustig waren; anders wordt het 7 km en komt de 10 later", "Start rustig (rond 7:00/km), tempo mag je helemaal loslaten", "Wandelpauze mag altijd, uitlopen telt", "Sub-1:05 komt later vanzelf, vandaag draait om trots finishen 🎉"] }),
   ]},
 ];
 
@@ -322,7 +322,7 @@ function fmtPace(perKm) {
 
 /* Afgeleide statistieken uit de log */
 function computeStats() {
-  let done = 0, km = 0, maxDist = 0, maxTime = 0, bestPace = 0, raceDone = false;
+  let done = 0, km = 0, maxDist = 0, maxTime = 0, bestPace = 0, raceDone = false, testDone = false;
   flatSessions.forEach((s) => {
     const e = log[sid(s.week, s.day)];
     if (!e || !e.done) return;
@@ -335,6 +335,7 @@ function computeStats() {
     const p = paceSeconds(e.distance, e.time);
     if (p && (bestPace === 0 || p < bestPace)) bestPace = p;
     if (s.week === LAST_SESSION.week && s.day === LAST_SESSION.day) raceDone = true;
+    if (s.test) testDone = true;
   });
   let streak = 0, run = 0;
   flatSessions.forEach((s) => {
@@ -345,7 +346,7 @@ function computeStats() {
   PLAN.forEach((w) => {
     if (w.sessions.every((s) => log[sid(w.week, s.day)]?.done)) fullWeeks++;
   });
-  return { done, total: totalSessions, km, maxDist, maxTime, bestPace, raceDone, streak, fullWeeks };
+  return { done, total: totalSessions, km, maxDist, maxTime, bestPace, raceDone, testDone, streak, fullWeeks };
 }
 
 function currentWeek() {
