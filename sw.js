@@ -1,10 +1,10 @@
 /* Eenvoudige offline-cache voor Run Coach. Verhoog CACHE bij elke update. */
-const CACHE = "bartlopen-vayen-interval-uitleg-1-2d-b2-p2-u2-m2";
+const CACHE = "bartlopen-vayen-interval-uitleg-1-2d-b2-p2-u2-m2-bugfix";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=6-c2-c3-c4-2d-b2-p2-u2-m2",
-  "./app.js?v=6-c2-c3-c4-2d-b2-p2-u2-m2",
+  "./styles.css?v=6-c2-c3-c4-2d-b2-p2-u2-m2-bugfix",
+  "./app.js?v=6-c2-c3-c4-2d-b2-p2-u2-m2-bugfix",
   "./coach.jpg",
   "./coach-logo.png",
   "./bartlopen-runcoach.png",
