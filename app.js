@@ -43,7 +43,7 @@ const ZONES = [
   { key: "herstel",  name: "Heel rustig",      pace: "langzamer dan 7:45", info: "uitlopen · alles mag traag" },
   { key: "duur",     name: "Rustige duur",     pace: "6:55–7:35",          info: "kletstempo · praten kan makkelijk" },
   { key: "lang",     name: "Langere duurloop", pace: "7:10–7:50",          info: "rustig · het gaat om de afstand" },
-  { key: "doel",     name: "Wedstrijdtempo",   pace: "5 km ≈6:00 · 10 km ≈6:30", info: "gecontroleerd snel" },
+  { key: "doel",     name: "Wedstrijdtempo",   pace: "6:00–6:30",          info: "5 km op 6:00 · 10 km op 6:30" },
   { key: "tempo",    name: "Tempoblokken",     pace: "6:10–6:30",          info: "stevig, maar onder controle" },
   { key: "interval", name: "Snelle stukjes",   pace: "5:30–5:50",          info: "kort en vlot · nooit sprinten" },
 ];
