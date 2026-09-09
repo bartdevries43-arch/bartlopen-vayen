@@ -1,7 +1,7 @@
 {
   "name": "Sneller worden · bartlopen Run Coach",
   "short_name": "Sneller worden",
-  "description": "Persoonlijk hardloopschema voor Vayèn met coaching van @bartlopen, stats en badges.",
+  "description": "Het persoonlijke schema van Vayèn: eerst 5 km onder de 30, daarna 10 km in 1:05, met coaching van @bartlopen.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
