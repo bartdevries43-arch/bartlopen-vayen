@@ -1,10 +1,10 @@
 /* Eenvoudige offline-cache voor Run Coach. Verhoog CACHE bij elke update. */
-const CACHE = "runcoach-vayen-10k-105-1-aftel-mooi2-koppen";
+const CACHE = "runcoach-vayen-10k-105-1-aftel-mooi2-koppen-rec";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=10k-105-1-aftel-mooi2-koppen",
-  "./app.js?v=10k-105-1-aftel-mooi2-koppen",
+  "./styles.css?v=10k-105-1-aftel-mooi2-koppen-rec",
+  "./app.js?v=10k-105-1-aftel-mooi2-koppen-rec",
   "./coach.jpg",
   "./coach-logo.png",
   "./bartlopen-runcoach.png",
