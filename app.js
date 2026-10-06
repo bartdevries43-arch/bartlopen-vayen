@@ -22,6 +22,7 @@ const CONFIG = {
   goal:       "5 km onder 30 · 10 km in 1:05",
   startDate:  new Date(2026, 8, 14),
   storeKey:   "vayen10k.log.v1",
+  legacyKeys: ["vayen.log.v1"],           // oude sleutel: voortgang hieruit overnemen
   coachName:  "Coach Bart",
   coachHandle:"@bartlopen",
   coachPhoto: "coach.jpg",
@@ -221,23 +222,26 @@ const PLAN = [
       "Knieën die zeuren? Stoppen mag altijd, dat is slim en niet zwak",
     ] }),
   ]},
-  { week: 9, dates: "9–15 nov", phase: "Fase 3 · Afstand terug opbouwen", sessions: [
-    ma({ zone: "tempo", km: 4, kind: "Speels & snel", title: "4x 1 min vlot", goal: "Scherpte vasthouden", blocks: [
-      "1 km rustig inlopen",
-      "4x 1 min vlot op 6:10–6:30/km, met 2 min rustig joggen ertussen",
-      "Vlot is niet hetzelfde als hard: je moet nog kunnen doorlopen",
-      "Daarna rustig uitlopen tot je op 4 km zit",
+  { week: 9, dates: "9–15 nov", phase: "Fase 3 · Afstand terug opbouwen", tuneup: true, tuneupTag: "Zevenheuvelennacht", raceLabel: "🏁 Zevenheuvelennacht · 7 km", raceSub: "Zevenheuvelennacht 7 km · zaterdagavond 14 november", sessions: [
+    ma({ zone: "duur", km: 3.5, kind: "Rustige duurloop", title: "3,5 km los + 3 versnellingen", goal: "Benen sparen voor zaterdagavond", blocks: [
+      "3,5 km rustig op 6:55–7:35/km",
+      "3x 100 m soepel versnellen, geen sprint",
+      "Zaterdag loop je de Zevenheuvelennacht, dus vandaag niets zwaars",
     ] }),
-    za({ zone: "lang", km: 7, kind: "Langere duurloop", title: "7 km rustig", goal: "Afstand weer opbouwen", blocks: [
-      "7 km rustig op 7:10–7:50/km",
-      "Rustig starten, het gaat om de afstand",
-      "Knieën die zeuren? Stoppen mag altijd, dat is slim en niet zwak",
+    za({ zone: "doel", km: 7, kind: "Wedstrijd", title: "🏁 Zevenheuvelennacht 7 km", goal: "Zaterdag 14 november · jouw eerste wedstrijd", why: "Zeven kilometer door Nijmegen in het donker, met lichtjes en muziek langs de route. Dit is je eerste echte wedstrijd en meteen je mooiste training: je leert starten tussen de drukte, je eigen tempo vasthouden en genieten van de sfeer. Een tijd hoeft niet, finishen met een grijns is het doel.", blocks: [
+      "Loop 10 min rustig in met 3 korte versnellingen, tot ongeveer een kwartier voor de start",
+      "Het is avond en kan koud zijn: een extra laagje dat je weg kunt doen is slim",
+      "Start rustiger dan je wil, in de drukte gaat de eerste kilometer altijd te hard",
+      "Richttempo 6:45–7:10/km, dan kom je rond de 48 à 50 minuten uit",
+      "Voelt het na 4 km nog goed? Dan mag je de laatste 2 km lekker doorlopen",
+      "Niet alles geven: dit is je tussendoel, je 10 km in december is de finale",
+      "Geniet van de lichtjes, dit ga je nooit meer vergeten 🌙",
     ] }),
   ]},
   { week: 10, dates: "16–22 nov", phase: "Fase 3 · Afstand terug opbouwen", sessions: [
-    ma({ zone: "tempo", km: 4.5, kind: "Speels & snel", title: "3x 3 min tempo", goal: "Langere blokken, zelfde tempo", blocks: [
-      "1 km rustig inlopen",
-      "3x 3 min op 6:10–6:30/km, met 2 min rustig joggen ertussen",
+    ma({ zone: "herstel", km: 4, kind: "Heel rustig", title: "4 km herstel na je wedstrijd", goal: "Losmaken na de Zevenheuvelennacht", blocks: [
+      "4 km heel rustig, langzamer dan 7:45/km",
+      "Zaterdag liep je 7 km op wedstrijdtempo, dat voel je nu",
       "Stevig maar onder controle",
       "Rustig uitlopen tot 4,5 km",
     ] }),
@@ -368,23 +372,111 @@ const BADGES = [
   { id: "acht",    icon: "🏔️", name: "Acht",            desc: "8 km in één training",   test: (s) => s.maxDist >= 8 },
   { id: "honderd", icon: "🚀", name: "Honderd km",      desc: "100 km totaal gelopen",  test: (s) => s.km >= 100 },
   { id: "tien",    icon: "🔟", name: "Dubbele cijfers", desc: "10 km in één training",  test: (s) => s.maxDist >= 10 },
-  { id: "finish",  icon: "🏁", name: "De 10 km",        desc: "Je finale voltooid",     test: (s) => s.raceDone },
+  { id: "zhn",     icon: "🌙", name: "Zevenheuvelennacht", desc: "7 km wedstrijd gelopen", test: (s) => s.zhnDone },
+  { id: "finish",  icon: "🏁", name: "De 10 km",        desc: "Je finale voltooid",     test: (s) => s.finaleDone },
 ];
 
 /* ================================================================== *
  *  State
  * ================================================================== */
-function loadLog() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
-  catch { return {}; }
+const LEGACY_KEYS = CONFIG.legacyKeys || [];
+
+function leesSleutel(k) {
+  try { const v = JSON.parse(localStorage.getItem(k)); return v && typeof v === "object" ? v : null; }
+  catch { return null; }
 }
-function saveLog() { localStorage.setItem(STORE_KEY, JSON.stringify(log)); }
+function aantalSessies(o) { return o ? Object.keys(o).filter((k) => /^w\d+-/.test(k)).length : 0; }
+function samenvoegen(hoofd, extra) { return { ...extra, ...hoofd }; }
+
+/* Voortgang laden. Stond er iets onder een oudere opslagsleutel, dan nemen we
+   dat over: zo raakt niemand zijn afgevinkte trainingen kwijt als de sleutel
+   ooit verandert of als de telefoon kort een oudere versie van de app serveert. */
+function loadLog() {
+  let uit = leesSleutel(STORE_KEY) || {};
+  const eigen = aantalSessies(uit);
+  LEGACY_KEYS.forEach((k) => {
+    const oud = leesSleutel(k);
+    if (aantalSessies(oud)) uit = samenvoegen(uit, oud);
+  });
+  if (aantalSessies(uit) > eigen) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(uit)); } catch {}
+  }
+  return uit;
+}
+function saveLog() {
+  log.__saved = Date.now();
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(log)); } catch {}
+  idbZet(log);
+  renderLaatstOpgeslagen();
+}
+
+/* ----- Tweede back-up in IndexedDB ---------------------------------- *
+ *  localStorage kan door de browser worden opgeruimd. Elke opslag gaat
+ *  daarom ook naar IndexedDB; bij opstarten halen we terug wat vollediger is.
+ * -------------------------------------------------------------------- */
+const IDB_NAAM = "bartlopen-runcoach", IDB_STORE = "logs";
+function idbOpen() {
+  return new Promise((ok, nee) => {
+    if (!window.indexedDB) return nee(new Error("geen indexedDB"));
+    const r = indexedDB.open(IDB_NAAM, 1);
+    r.onupgradeneeded = () => {
+      if (!r.result.objectStoreNames.contains(IDB_STORE)) r.result.createObjectStore(IDB_STORE);
+    };
+    r.onsuccess = () => ok(r.result);
+    r.onerror = () => nee(r.error);
+  });
+}
+async function idbZet(data) {
+  try {
+    const db = await idbOpen();
+    await new Promise((ok, nee) => {
+      const t = db.transaction(IDB_STORE, "readwrite");
+      t.objectStore(IDB_STORE).put(JSON.parse(JSON.stringify(data)), STORE_KEY);
+      t.oncomplete = ok; t.onerror = () => nee(t.error);
+    });
+  } catch {}
+}
+async function idbHaal() {
+  try {
+    const db = await idbOpen();
+    return await new Promise((ok, nee) => {
+      const t = db.transaction(IDB_STORE, "readonly");
+      const q = t.objectStore(IDB_STORE).get(STORE_KEY);
+      q.onsuccess = () => ok(q.result || null);
+      q.onerror = () => nee(q.error);
+    });
+  } catch { return null; }
+}
+function herstelUitBackup() {
+  return idbHaal().then((kopie) => {
+    if (!kopie) { idbZet(log); return false; }
+    if (aantalSessies(kopie) > aantalSessies(log)) {
+      log = samenvoegen(log, kopie);
+      saveLog(); renderAll();
+      toast("Je voortgang is teruggehaald 🔄");
+      return true;
+    }
+    idbZet(log);
+    return false;
+  }).catch(() => false);
+}
+function renderLaatstOpgeslagen() {
+  const el = document.getElementById("lastSaved");
+  if (!el) return;
+  const t = log.__saved;
+  if (!t) { el.textContent = ""; return; }
+  const d = new Date(t), pad = (n) => String(n).padStart(2, "0");
+  el.textContent = `Laatst opgeslagen: ${d.getDate()}-${pad(d.getMonth() + 1)} om ${pad(d.getHours())}:${pad(d.getMinutes())} · ${aantalSessies(log)} trainingen ingevuld`;
+}
 let log = loadLog();
 
 const sid = (week, day) => `w${week}-${day}`;
 const flatSessions = PLAN.flatMap((w) => w.sessions.map((s) => ({ ...s, week: w.week })));
 const totalSessions = flatSessions.length;
 const LAST_SESSION = flatSessions[flatSessions.length - 1];
+/* Vaste ankers, zodat een behaalde badge niet verschuift als er weken bijkomen. */
+const ZHN_SESSION = { week: 9, day: "za" };     /* Zevenheuvelennacht 7 km, 14 nov */
+const FINALE_SESSION = { week: 14, day: "za" }; /* 10 km finale, 19 dec */
 const DAY_OFFSET = { ma: 0, di: 1, wo: 2, do: 3, vr: 4, za: 5, zo: 6, d1: 0, d2: 2, d3: 4, d4: 6 };
 
 const escapeHtml = (value = "") => String(value)
@@ -482,7 +574,9 @@ function computeStats() {
   PLAN.forEach((w) => {
     if (w.sessions.every((s) => log[sid(w.week, s.day)]?.done)) fullWeeks++;
   });
-  return { done, total: totalSessions, km, maxDist, maxTime, bestPace, secs, raceDone, testDone, streak, fullWeeks };
+  const klaar = (a) => !!log[sid(a.week, a.day)]?.done;
+  const zhnDone = klaar(ZHN_SESSION), finaleDone = klaar(FINALE_SESSION);
+  return { done, total: totalSessions, km, maxDist, maxTime, bestPace, secs, raceDone, testDone, zhnDone, finaleDone, streak, fullWeeks };
 }
 
 function currentWeek() {
@@ -521,17 +615,47 @@ function renderHero(stats) {
   $("heroMotto").textContent =
     stats.raceDone ? mottos[5] : pct >= 80 ? mottos[4] : pct >= 50 ? mottos[3] : pct >= 20 ? mottos[2] : pct > 0 ? mottos[1] : mottos[0];
   renderCountdown();
+  renderSubgoal();
+}
+
+function raceTarget() {
+  /* Het eerstvolgende doel dat nog moet komen. Gelopen = datum voorbij óf afgevinkt. */
+  const vandaag = new Date().setHours(0, 0, 0, 0);
+  /* Via dateAtDay rekenen, niet met rauwe milliseconden: anders schuift alles
+     een dag op zodra de zomertijd ingaat of eindigt. */
+  const datumVan = (w) => {
+    const d = w.sessions[w.sessions.length - 1].day;
+    return dateAtDay((w.week - 1) * 7 + (DAY_OFFSET[d] ?? 6)).setHours(0, 0, 0, 0);
+  };
+  const doelen = PLAN.filter((w) => w.race || w.finish || w.tuneup);
+  const gelopen = (w) => {
+    const d = w.sessions[w.sessions.length - 1].day;
+    return datumVan(w) < vandaag || !!log[sid(w.week, d)]?.done;
+  };
+  const volgende = doelen.find((w) => !gelopen(w));
+  const rw = volgende || doelen[doelen.length - 1] || PLAN[PLAN.length - 1];
+  const rs = rw.sessions[rw.sessions.length - 1];
+  return { rw, rs, date: new Date(datumVan(rw)), allesGelopen: !volgende };
 }
 
 function raceInfo() {
-  const rw = PLAN.find((w) => w.race || w.finish) || PLAN.find((w) => w.tuneup) ||
-    PLAN[PLAN.length - 1];
-  const rs = rw.sessions[rw.sessions.length - 1];
-  const off = DAY_OFFSET[rs.day] ?? 6;
-  const date = new Date(schedStartMs() + ((rw.week - 1) * 7 + off) * 864e5);
-  const days = Math.round((date.setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 864e5);
-  return { days, name: rs.title.replace(/^[^\p{L}\d]+/u, "").trim() };
+  const { rs, allesGelopen, date } = raceTarget();
+  const days = Math.round((new Date(date).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 864e5);
+  return { days: allesGelopen ? -1 : days, name: rs.title.replace(/^[^\p{L}\d]+/u, "").trim() };
 }
+
+const NL_DAG = ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
+const NL_MAAND = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"];
+function renderSubgoal() {
+  const el = document.querySelector(".hero-subgoal");
+  if (!el) return;
+  const { rw, rs, date, allesGelopen } = raceTarget();
+  const voorbij = allesGelopen || new Date(date).setHours(12, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+  const soort = rw.finish ? "Finale" : rw.race ? "Doelrace" : "Tussendoel";
+  const kop = `${voorbij ? "🎉 Gelopen" : "🏁 " + soort} · ${NL_DAG[new Date(date).getDay()]} ${new Date(date).getDate()} ${NL_MAAND[new Date(date).getMonth()]}`;
+  el.innerHTML = `<span>${kop}</span><strong>${rw.raceSub || rs.title.replace(/^[^\p{L}\d]+/u, "").trim()}</strong>`;
+}
+
 function renderCountdown() {
   const motto = $("heroMotto");
   if (!motto) return;
@@ -1290,6 +1414,8 @@ $("pdfBtn").addEventListener("click", () => {
 
 /* Alles tekenen */
 renderAll();
+renderLaatstOpgeslagen();
+herstelUitBackup();
 /* Na de intro-animatie geen her-fade meer; failsafe die alles zeker toont */
 setTimeout(() => { initialRevealDone = true; }, 900);
 setTimeout(() => document.querySelectorAll(".reveal:not(.in)").forEach((el) => el.classList.add("in")), 1600);

@@ -1,10 +1,10 @@
 /* Eenvoudige offline-cache voor Run Coach. Verhoog CACHE bij elke update. */
-const CACHE = "runcoach-vayen-10k-105-1-aftel-mooi2-koppen-rec-smal";
+const CACHE = "runcoach-vayen-10k-105-1-aftel-mooi2-koppen-rec-smal-opslag2";
 const ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=10k-105-1-aftel-mooi2-koppen-rec-smal",
-  "./app.js?v=10k-105-1-aftel-mooi2-koppen-rec-smal",
+  "./styles.css?v=10k-105-1-aftel-mooi2-koppen-rec-smal-opslag2",
+  "./app.js?v=10k-105-1-aftel-mooi2-koppen-rec-smal-opslag2",
   "./coach.jpg",
   "./coach-logo.png",
   "./bartlopen-runcoach.png",
@@ -28,13 +28,33 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
+  const url = new URL(e.request.url);
+  const isPagina = e.request.mode === "navigate" || url.pathname.endsWith("/") || url.pathname.endsWith(".html");
+  const isCode = /\.(?:js|css|json|webmanifest)$/.test(url.pathname);
+
+  /* Pagina en code: eerst het netwerk. Zo blijft een telefoon nooit hangen op
+     een oude versie van de app, en dus ook niet op een oude opslagsleutel. */
+  if (isPagina || isCode) {
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
+          return res;
+        })
+        .catch(() => caches.match(e.request).then((hit) => hit || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  /* Plaatjes en overige bestanden: uit de cache, dat is sneller en scheelt data. */
   e.respondWith(
     caches.match(e.request).then((hit) =>
       hit || fetch(e.request).then((res) => {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
         return res;
-      }).catch(() => caches.match("./index.html"))
+      })
     )
   );
 });
